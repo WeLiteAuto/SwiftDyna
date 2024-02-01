@@ -16,6 +16,9 @@ public struct DynaMaterial {
 
     /// Property of the material, demonstrating the use of `MaterialPropertyValue`.
     var property: MaterialPropertyValue?
+    
+    var curves: [Curve2D] = []
+    var tables: [CurveTable] = []
 
     /// Generates a textual description of the material and its properties.
     /// - Returns: A `String` representing the material with its properties.
