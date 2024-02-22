@@ -4,7 +4,8 @@
 //
 //  Created by Aaron Ge on 2024/1/28.
 //
-
+import Foundation
+import Collections
 /// A structure representing a 2D point.
 ///
 /// This structure provides a basic representation of a point in a two-dimensional space,
@@ -12,7 +13,7 @@
 public struct Point2D {
     /// The x-coordinate of the point.
     var x: Double
-
+    
     /// The y-coordinate of the point.
     var y: Double
 }
@@ -29,7 +30,7 @@ public struct Curve2D {
     /// Initializes a new curve with the given points.
     ///
     /// - Parameter points: An array of `Point2D` instances to initialize the curve.
-    init(points: [Point2D]) {
+    init(points: [Point2D] = []) {
         self.points = points
     }
     
@@ -49,11 +50,33 @@ public struct Curve2D {
     mutating func sortByX() {
         points.sort { $0.x < $1.x }
     }
+    
+    /// Generates a textual description of the curve and its points.
+    /// This method provides a detailed representation of the curve, including
+    /// the coordinates of each point in the curve.
+    /// - Returns: A `String` representing the detailed description of the curve.
+    func description() -> String {
+        let pointDescriptions = points.map { "(\($0.x), \($0.y))" }.joined(separator: ", ")
+        return "Curve2D with points: [\(pointDescriptions)]"
+    }
+}
+
+public extension Curve2D{
+    /// Accesses the `Point2D` at the specified index.
+    subscript(index: Int) -> Point2D {
+        get {
+            // Ensure the index is within bounds before attempting to access the array
+            assert(index >= 0 && index < points.count, "Index out of range")
+            return points[index]
+        }
+        set {
+            // Similarly, ensure the index is within bounds before attempting to modify the array
+            assert(index >= 0 && index < points.count, "Index out of range")
+            points[index] = newValue
+        }
+    }
 }
 
 
-extension Point2D: Codable{}
 
-extension Curve2D: Codable{}
 
-typealias CurveTable = [Double: Curve2D]
