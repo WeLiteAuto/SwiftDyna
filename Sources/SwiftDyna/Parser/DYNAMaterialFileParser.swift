@@ -17,7 +17,7 @@ public class DYNAMaterialFileParser {
     var lcCurves:  OrderedDictionary<Int, Curve2D> = [:]  //[Int: Curve2D]
     var lcCurveTables:  OrderedDictionary<Int, CurveTable> = [:]   //[Int: CurveTable]
     var material: DYNAMaterial?
-    var fracture: KVFormatedOrderedDictionary<String, MaterialPropertyValue>?
+    var fracture: [String: MaterialPropertyValue]?
     
     
     public func parseFile(path: String) throws -> (any DYNAMaterial)?{

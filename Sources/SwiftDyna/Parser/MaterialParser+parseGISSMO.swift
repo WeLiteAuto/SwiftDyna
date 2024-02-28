@@ -12,10 +12,10 @@ import Collections
 public extension MaterialParser {
     func parseGISSMO(lines: [String],
                      curves:  OrderedDictionary<Int, Curve2D>,
-                     tables:  OrderedDictionary<Int, CurveTable>) throws -> KVFormatedOrderedDictionary<String, MaterialPropertyValue>? {
+                     tables:  OrderedDictionary<Int, CurveTable>) throws -> [String: MaterialPropertyValue]? {
         guard !lines.isEmpty else{throw fatalError("Parse GISSMO error")}
         var lines = lines
-        var erosion = KVFormatedOrderedDictionary<String, MaterialPropertyValue>([:])
+        var erosion = [String: MaterialPropertyValue]()
         
         if splitByWhitespace(lines[0]).count == 1 {
             _ = lines.removeFirst()
@@ -95,7 +95,7 @@ public extension MaterialParser {
         guard let shrf = Double(line3[4].trimmingCharacters(in: .whitespaces))
         else {throw fatalError("Parser errosion error")}
         erosion["shrf"] = .directValue(shrf)
-        guard var biaxf = Double(line3[5].trimmingCharacters(in: .whitespaces))
+        guard let biaxf = Double(line3[5].trimmingCharacters(in: .whitespaces))
         else {throw fatalError("Parser errosion error")}
         erosion["biaxf"] = .directValue(biaxf)
         return erosion

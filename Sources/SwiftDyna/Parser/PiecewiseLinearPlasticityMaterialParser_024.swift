@@ -40,7 +40,7 @@ public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
 //        var elongation: Double
         if tables.keys.contains(lcssId){
             hardenCurves = .curveTableID(lcssId, tables[lcssId]!)
-            lowestCurve = tables[lcssId]!.values[0]
+            lowestCurve = tables[lcssId]!.values.first!
 //            guard let curve = curves[curveId] else{return pieceLinerPlasticMaterial}
 //            lowestCurve = curve
             

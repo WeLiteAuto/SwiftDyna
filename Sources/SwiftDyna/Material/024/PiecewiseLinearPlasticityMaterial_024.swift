@@ -15,10 +15,10 @@ public struct PiecewiseLinearPlasticityMaterial_024: DYNAMaterial {
     public var density: Double
     public var title: String?
     
-    public var basic =  KVFormatedOrderedDictionary<String, MaterialPropertyValue> ([:])
+    public var basic =  [String: MaterialPropertyValue] ()
     
     public var hardenCurves: MaterialPropertyValue = .directValue(0.0)
-    public var fracture: KVFormatedOrderedDictionary<String, MaterialPropertyValue>? = nil
+    public var fracture: [String: MaterialPropertyValue]? = nil
     
     public init(id: Int, density: Double, title: String? = nil
     ) {

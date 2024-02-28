@@ -11,9 +11,6 @@ import XCTest
 
 final class NumericTests: XCTestCase {
     
-    
-    
-    
     func testDouble() throws{
         let string = "2.70000E-9"
         XCTAssertNotNil(Double(string))

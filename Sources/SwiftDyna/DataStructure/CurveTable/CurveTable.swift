@@ -8,7 +8,7 @@
 //import Collections
 import Foundation
 
-public typealias CurveTable = KVFormatedOrderedDictionary<Double, Curve2D>
+public typealias CurveTable =  [Double: Curve2D]
 
 
 //public struct CurveTable : Encodable{

@@ -53,6 +53,24 @@ final class Curve2DTests: XCTestCase {
 
     }
     
+    func testPointCoding() throws{
+        let point = Point2D(x: 210, y: 1000)
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        XCTAssertNoThrow(try encoder.encode(point))
+        
+        let jsonData = try encoder.encode(point)
+        let jsonString = String(data: jsonData, encoding: .utf8)
+        XCTAssertNotNil(jsonString)
+        let newJsonData = Data(jsonString!.utf8)
+
+        XCTAssertNoThrow(try JSONDecoder().decode(Point2D.self, from: newJsonData))
+        let newPoint = try JSONDecoder().decode(Point2D.self, from: newJsonData)
+        print(newPoint)
+
+    }
+    
     func testCurveEncoding() throws {
         let curve = Curve2D(points: [Point2D(x: 0.0, y: 1000), Point2D(x: 0.1, y: 1100), Point2D(x: 0.3, y: 1200)])
        
@@ -74,7 +92,7 @@ final class Curve2DTests: XCTestCase {
     func testCurveTableEncoding() throws {
         let curve1 = Curve2D(points: [Point2D(x: 0.0, y: 1000), Point2D(x: 0.1, y: 1100), Point2D(x: 0.3, y: 1200)])
         let curve2 = Curve2D(points: [Point2D(x: 0.0, y: 1100), Point2D(x: 0.1, y: 1200), Point2D(x: 0.2, y: 1300)])
-        let curveTable: CurveTable = CurveTable([0.1: curve1, 1.0: curve2])
+        let curveTable: CurveTable = [0.1: curve1, 1.0: curve2]
 
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted

@@ -19,7 +19,7 @@ public protocol DYNAMaterial {
     var title: String? {get set}
 
     /// Basic properties of the material, demonstrating the use of `MaterialPropertyValue`.
-    var basic: KVFormatedOrderedDictionary<String, MaterialPropertyValue> { get set }
+    var basic: [String: MaterialPropertyValue] { get set }
     
     /// Specific properties of the material, demonstrating the use of `MaterialPropertyValue`.
 //    var properties: OrderedDictionary<String, MaterialPropertyValue> { get set }

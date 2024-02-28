@@ -62,5 +62,20 @@ final class Mat24Tests: XCTestCase {
             print("Error encoding CurveTable: \(error)")
         }
     }
+    
+    func testDecodeGISSMO() throws{
+        let path = "gissmo.json"
+        let documentDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first!
+        let fileURL = documentDirectory.appendingPathComponent(path)
+//        print(fileURL)
+        
+        XCTAssertNoThrow(try Data(contentsOf: fileURL))
+        let data = try Data(contentsOf: fileURL)
+        let decoder = JSONDecoder()
+//        let gissmo = try decoder.decode([String: MaterialPropertyValue].self, from: data)
+        
+        
+
+    }
 }
 
