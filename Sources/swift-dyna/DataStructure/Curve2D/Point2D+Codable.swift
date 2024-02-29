@@ -15,17 +15,13 @@ extension Point2D: Codable{
     /// - Parameter decoder: The decoder to read data from.
     /// - Throws: `DecodingError.dataCorruptedError` if the string is not in the expected format or if the coordinates cannot be converted to `Double`.
     public init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: DynamicCodingKeys.self)
-            let keys = values.allKeys
-            
-            guard let xKey = keys.first, let yKey = keys.last,
-                  let xValue = Double(xKey.stringValue), let yValue = Double(yKey.stringValue) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Cannot decode Point2D"))
-            }
-            
-            self.x = xValue
-            self.y = yValue
+        let container = try decoder.singleValueContainer()
+        let dictionary = try container.decode([String: Double].self)
+        guard let firstKey = dictionary.keys.first, let xValue = Double(firstKey), let yValue = dictionary[firstKey] else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode Point2D")
         }
+        self.init(x: xValue, y: yValue)
+    }
     
     /// Encodes this `Point2D` into a single string value.
     ///
@@ -34,12 +30,7 @@ extension Point2D: Codable{
     /// - Parameter encoder: The encoder to write data to.
     /// - Throws: An error if any values cannot be encoded.
     public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: DynamicCodingKeys.self)
-            
-            let xKey = DynamicCodingKeys(stringValue: String(x))!
-            let yKey = DynamicCodingKeys(stringValue: String(y))!
-            
-            try container.encode(1000, forKey: xKey)
-            try container.encode(1000, forKey: yKey)
-        }
+            var container = encoder.singleValueContainer()
+            try container.encode([String(x): y])
+    }
 }

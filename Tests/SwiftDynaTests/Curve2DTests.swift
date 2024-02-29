@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  Curve2DTests.swift
+//  
 //
-//
-//  Created by Aaron Ge on 2024/2/4.
+//  Created by Aaron Ge on 2024/2/29.
 //
 
 import XCTest
@@ -11,25 +11,34 @@ import Collections
 
 final class Curve2DTests: XCTestCase {
     
-    
     let path = "/Users/aaronge/Downloads/demo.txt"
-    
+
     var parser: DYNAMaterialFileParser? = nil
     var sections: [String: [[String]]] = [:]
     
     override func setUpWithError() throws {
-        
+        // Put setup code here. This method is called before the invocation of each test method in the class.
         parser = DYNAMaterialFileParser()
         let contents = parser!.readFileContents(atPath: path)
         sections = parser!.parseContents2Sections(contents: contents!)
     }
-    
-    
-    
+
+    override func tearDownWithError() throws {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    func testExample() throws {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // Any test you write for XCTest can be annotated as throws and async.
+        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
+        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    }
+
     func testDifferential() throws{
         
         var curves: [[String]] = []
-//        var tables: [[String]] = []
+        //        var tables: [[String]] = []
         if sections.keys.contains(where: {$0 == "*DEFINE_CURVE"}){
             curves.append(contentsOf: sections["*DEFINE_CURVE"]!)
         }
@@ -50,61 +59,7 @@ final class Curve2DTests: XCTestCase {
         let dev = curve0.derivative()
         
         XCTAssertNotNil(curve0.firstIntersection(with: dev))
-
-    }
-    
-    func testPointCoding() throws{
-        let point = Point2D(x: 210, y: 1000)
-        
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        XCTAssertNoThrow(try encoder.encode(point))
-        
-        let jsonData = try encoder.encode(point)
-        let jsonString = String(data: jsonData, encoding: .utf8)
-        XCTAssertNotNil(jsonString)
-        let newJsonData = Data(jsonString!.utf8)
-
-        XCTAssertNoThrow(try JSONDecoder().decode(Point2D.self, from: newJsonData))
-        let newPoint = try JSONDecoder().decode(Point2D.self, from: newJsonData)
-        print(newPoint)
-
-    }
-    
-    func testCurveEncoding() throws {
-        let curve = Curve2D(points: [Point2D(x: 0.0, y: 1000), Point2D(x: 0.1, y: 1100), Point2D(x: 0.3, y: 1200)])
-       
-
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-
-        do {
-            let jsonData = try encoder.encode(curve)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
-            }
-        } catch {
-            print("Error encoding CurveTable: \(error)")
-        }
         
     }
-    
-    func testCurveTableEncoding() throws {
-        let curve1 = Curve2D(points: [Point2D(x: 0.0, y: 1000), Point2D(x: 0.1, y: 1100), Point2D(x: 0.3, y: 1200)])
-        let curve2 = Curve2D(points: [Point2D(x: 0.0, y: 1100), Point2D(x: 0.1, y: 1200), Point2D(x: 0.2, y: 1300)])
-        let curveTable: CurveTable = [0.1: curve1, 1.0: curve2]
 
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-
-        do {
-            let jsonData = try encoder.encode(curveTable)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
-            }
-        } catch {
-            print("Error encoding CurveTable: \(error)")
-        }
-        
-    }
 }

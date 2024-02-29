@@ -15,13 +15,13 @@ final class NumericTests: XCTestCase {
         let string = "2.70000E-9"
         XCTAssertNotNil(Double(string))
         let value = Double(string)
-        print(value)
+        print(value!)
     }
     
     func testInt() throws{
         let string = "      1003".trimmingCharacters(in: .whitespaces)
         XCTAssertNotNil(Int(string))
         let value = Int(string)
-        print(value)
+        print(value!)
     }
 }

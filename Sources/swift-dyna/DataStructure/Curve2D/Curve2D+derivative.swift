@@ -7,6 +7,7 @@
 
 import Foundation
 public extension Curve2D{
+    
     /// Computes the derivative of the curve.
     /// - Returns: A new `Curve2D` representing the derivative of the original curve.
     func derivative() -> Curve2D {
