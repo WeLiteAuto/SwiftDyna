@@ -72,8 +72,10 @@ final class Mat24Tests: XCTestCase {
         XCTAssertNoThrow(try Data(contentsOf: fileURL))
         let data = try Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
-//        let gissmo = try decoder.decode([String: MaterialPropertyValue].self, from: data)
         
+        XCTAssertNoThrow(try decoder.decode([String: MaterialPropertyValue].self, from: data))
+        let gissmo = try decoder.decode([String: MaterialPropertyValue].self, from: data)
+        print(gissmo)
         
 
     }
