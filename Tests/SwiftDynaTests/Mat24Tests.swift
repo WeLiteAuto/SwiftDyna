@@ -80,8 +80,6 @@ final class Mat24Tests: XCTestCase {
         XCTAssertNoThrow(try decoder.decode([String: MaterialPropertyValue].self, from: data))
         let gissmo = try decoder.decode([String: MaterialPropertyValue].self, from: data)
         print(gissmo)
-        
-
     }
 }
 
