@@ -45,10 +45,13 @@ public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
         
         else {
             guard let curve = curves[lcssId] else{return pieceLinerPlasticMaterial}
-            hardenCurves = .curveID(lcssId, curve)
+            hardenCurves = .curveTableID(lcssId, .init([0.001: curve]))
+//                .curveID(lcssId, curve)
 //            guard let curve = curves[lcssId] else{return pieceLinerPlasticMaterial}
             lowestCurve = curve
         }
+        
+        
         
         
         yield = lowestCurve[0].y
@@ -63,6 +66,7 @@ public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
         pieceLinerPlasticMaterial!.basic["Poison"] = .directValue(poison)
         pieceLinerPlasticMaterial!.basic["Yield"] = .directValue(yield)
         pieceLinerPlasticMaterial!.basic["Tensile"] = .directValue(intersetion.y / expX)
+        
         
         pieceLinerPlasticMaterial!.hardenCurves = hardenCurves
         //

@@ -166,9 +166,10 @@ public class DYNAMaterialFileParser {
         var transfered = false
         
         for line in data {
-            let components = line.split(separator: " ")
+//            let components = line.split(separator: " ")
+            let components = line.components(separatedBy: .whitespaces).filter{!$0.isEmpty}
             if !transfered{
-                if components.count == 8{
+                if components.count > 2{
                     key = Int(components[0]) ?? 0
                     SFA = Double(components[2]) ?? 1
                     SFO = Double(components[3]) ?? 1

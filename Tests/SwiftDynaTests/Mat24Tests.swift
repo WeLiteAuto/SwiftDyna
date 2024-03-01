@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftDyna
 
 final class Mat24Tests: XCTestCase {
-    let path = "/Users/aaronge/Downloads/demo.txt"
+    let path = "/Users/aaronge/Downloads/6063.key"
     
     var parser: DYNAMaterialFileParser? = nil
     var contents: String? = nil
@@ -19,6 +19,10 @@ final class Mat24Tests: XCTestCase {
     func testReadFileContents() throws {
         let parser =  DYNAMaterialFileParser()
         XCTAssertNoThrow(try parser.parseContent(contents!))
+    }
+    
+    func testParseCurves() throws{
+        XCTAssertNoThrow(try parser!.parseCurveSections(sections))
     }
     
     func testParseCurveTables() throws {
