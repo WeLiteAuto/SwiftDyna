@@ -9,8 +9,7 @@ import XCTest
 @testable import SwiftDyna
 
 class TempWriter: MaterialWriter{
-    
-    func write(material: SwiftDyna.DYNAMaterial) -> [String] {
+    func write(material: SwiftDyna.DYNAMaterial, id: Int, type: SwiftDyna.MaterialCardType = .structure) -> [String] {
         let material = material as! PiecewiseLinearPlasticityMaterial_024
         switch material.hardenCurves{
         case .curveTableID(_, let table):
@@ -20,7 +19,6 @@ class TempWriter: MaterialWriter{
         case .curveID(_, let curve):
             return Self.writeCurve(curve: curve, sfa: 1, id: 1)
         }
-        
     }
     
     
@@ -56,7 +54,7 @@ final class WriterTest: XCTestCase {
         
 //        let material = parser!.material
         let writer = TempWriter()
-        let result = writer.write(material: parser!.material! )
+        let result = writer.write(material: parser!.material!, id: <#Int#> )
         
         let combinedString = result.joined(separator: "\n")
 

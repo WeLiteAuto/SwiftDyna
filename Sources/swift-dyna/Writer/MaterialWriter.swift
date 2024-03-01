@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 /// A protocol defining methods for writing material data structures to a string representation.
 ///
 /// This protocol is designed to facilitate the conversion of various material-related data structures,
@@ -15,9 +17,12 @@ import Foundation
 public protocol MaterialWriter {
     /// Writes the properties of a `DYNAMaterial` to an array of strings.
     ///
-    /// - Parameter material: The `DYNAMaterial` instance to be written.
+    /// - Parameter 
+    ///   - material: The `DYNAMaterial` instance to be written.
+    ///   - id: The `Int" id for material
+    ///   - type: The `MaterialCardType` to write
     /// - Returns: An array of strings representing the serialized form of the material.
-    func write(material: DYNAMaterial) -> [String]
+    func write(material: DYNAMaterial, id: Int, type: MaterialCardType) throws -> [String]
     
     /// Writes a `Point2D` structure to a string in a predefined format.
     ///

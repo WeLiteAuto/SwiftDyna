@@ -18,8 +18,8 @@ public protocol DYNAMaterial {
     /// The optional titie of the material.
     var title: String? {get set}
 
-    /// Basic properties of the material, demonstrating the use of `MaterialPropertyValue`.
-    var basic: [String: MaterialPropertyValue] { get set }
+    /// Basic properties of the material, demonstrating the use of `Double`.
+    var basic: [String: Double] { get set }
     
     /// Specific properties of the material, demonstrating the use of `MaterialPropertyValue`.
 //    var properties: OrderedDictionary<String, MaterialPropertyValue> { get set }
