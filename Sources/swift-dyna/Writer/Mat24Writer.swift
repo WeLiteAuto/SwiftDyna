@@ -35,13 +35,31 @@ class Mat24Writer: MaterialWriter{
         let thirdLine =  String(format: "%10f%10f%10f%10f%10f%10f%10f%10f%", 0,0,0,0,0,0,0,0)
         let forthLine =  String(format: "%10f%10f%10f%10f%10f%10f%10f%10f%", 0,0,0,0,0,0,0,0)
         
-        var curves : [String]
-        switch type{
-        case .structure
-            let curves
-        case .crashworthness:
-            <#code#>
+        var curves = CurveTable()
+        switch material.hardenCurves{
+        case .directValue(_):
+            throw(fatalError())
+        case .curveID(_, _):
+            throw(fatalError())
+        case .curveTableID(_, let table):
+            curves = table
         }
+        
+        lines.append(contentsOf: [firstLine, secondLine, thirdLine, forthLine])
+        
+        var curvesString: [String]
+        switch type{
+        case .structure:
+//            let curves = material.hardenCurves as! 
+            guard let lowestKey = curves.keys.min() else {throw(fatalError())}
+            let lowest = curves[lowestKey]!
+            curvesString = Self.writeCurve(curve: lowest, sfa: 1, id: matId)
+        case .crashworthness:
+            curvesString = Self.writeCurveTable(table: curves, id: matId)
+        }
+        
+        lines.append(contentsOf: curvesString)
+        return lines
     }
     
     
