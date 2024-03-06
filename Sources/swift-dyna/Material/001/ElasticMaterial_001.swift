@@ -31,14 +31,14 @@ public struct ElasticMaterial_001: DYNAMaterial {
     /// Poisson's ratio (PR), damping coefficients (DA, DB), bulk modulus (K),
     /// critical volume compression (VC), and pressure cutoff (CP).
     ///
-    public var basic : [String: MaterialPropertyValue] = [
-        "Youngs": .directValue(210000),
-        "Poison": .directValue(0.3),
-        "DA": .directValue(0),
-        "DB": .directValue(0),
-        "K": .directValue(0),
-        "VC": .directValue(0.2),
-        "CP": .directValue(1e20)]
+    public var basic : [String: Double] = [
+        "Youngs": 210000,
+        "Poison": 0.3,
+        "DA": 0,
+        "DB": 0,
+        "K": 0,
+        "VC": 0.2,
+        "CP": 1e20]
     
     public var properties:  OrderedCollections.OrderedDictionary<String, MaterialPropertyValue> = [:]
     

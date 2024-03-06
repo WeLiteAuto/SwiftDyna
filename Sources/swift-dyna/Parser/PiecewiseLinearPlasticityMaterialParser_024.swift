@@ -62,10 +62,10 @@ public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
         
         pieceLinerPlasticMaterial = PiecewiseLinearPlasticityMaterial_024(id: id, density: density)
         pieceLinerPlasticMaterial?.title = title
-        pieceLinerPlasticMaterial!.basic["Youngs"] = .directValue(youngs)
-        pieceLinerPlasticMaterial!.basic["Poison"] = .directValue(poison)
-        pieceLinerPlasticMaterial!.basic["Yield"] = .directValue(yield)
-        pieceLinerPlasticMaterial!.basic["Tensile"] = .directValue(intersetion.y / expX)
+        pieceLinerPlasticMaterial!.basic["Youngs"] = youngs
+        pieceLinerPlasticMaterial!.basic["Poison"] = poison
+        pieceLinerPlasticMaterial!.basic["Yield"] = yield
+        pieceLinerPlasticMaterial!.basic["Tensile"] = intersetion.y / expX
         
         
         pieceLinerPlasticMaterial!.hardenCurves = hardenCurves
