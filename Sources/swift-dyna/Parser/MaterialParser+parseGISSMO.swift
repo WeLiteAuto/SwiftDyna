@@ -29,7 +29,8 @@ public extension MaterialParser {
         guard let lcsdg = Int(line2[2].trimmingCharacters(in: .whitespaces))
         else {throw fatalError("Parser errosion error")}
         if curves.keys.contains(lcsdg){
-            erosion["lcsdg"] = .curveID(lcsdg, curves[lcsdg]!)
+            let table = CurveTable([0.001: curves[lcsdg]!])
+            erosion["lcsdg"] = .curveTableID(lcsdg, table)
         }
         else if tables.keys.contains(lcsdg){
             erosion["lcsdg"] = .curveTableID(lcsdg, tables[lcsdg]!)
@@ -39,8 +40,8 @@ public extension MaterialParser {
         guard let ecrit = Double(line2[3].trimmingCharacters(in: .whitespaces)),
               ecrit.isInteger
         else {throw fatalError("Parser errosion error")}
-        if curves.keys.contains(Int(ecrit)){
-            erosion["ecrit"] = .curveID(Int(ecrit), curves[Int(ecrit)]!)
+        if curves.keys.contains(Int(-ecrit)){
+            erosion["ecrit"] = .curveID(Int(-ecrit), curves[Int(-ecrit)]!)
         }
         else {
             erosion["ecrit"] = .directValue(0)
@@ -61,7 +62,7 @@ public extension MaterialParser {
         
         guard let fadexp = Double(line2[6].trimmingCharacters(in: .whitespaces))
         else {throw fatalError("Parser errosion error")}
-        erosion["dcrit"] = .directValue(fadexp)
+        erosion["fadexp"] = .directValue(fadexp)
         
         guard let lcregd = Double(line2[7].trimmingCharacters(in: .whitespaces)),
               lcregd.isInteger

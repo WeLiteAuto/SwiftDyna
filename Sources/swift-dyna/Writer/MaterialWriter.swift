@@ -18,8 +18,8 @@ public protocol MaterialWriter {
     /// Writes the properties of a `DYNAMaterial` to an array of strings.
     ///
     /// - Parameter 
-    ///   - material: The `DYNAMaterial` instance to be written.
     ///   - id: The `Int" id for material
+    ///   - material: The `DYNAMaterial` instance to be written.
     ///   - type: The `MaterialCardType` to write
     /// - Returns: An array of strings representing the serialized form of the material.
     func write(material: DYNAMaterial, id: Int, type: MaterialCardType) throws -> [String]
@@ -33,19 +33,19 @@ public protocol MaterialWriter {
     /// Writes the properties of a `Curve2D` along with scale factor and identifier to an array of strings.
     ///
     /// - Parameters:
+    ///   - id: An `Int` serving as an identifier for the curve.
     ///   - curve: The `Curve2D` instance to be written.
     ///   - sfa: A `Double` representing the scale factor applied to the curve data.
-    ///   - id: An `Int` serving as an identifier for the curve.
     /// - Returns: An array of strings representing the serialized form of the curve.
-    static func writeCurve(curve: Curve2D, sfa: Double, id: Int) -> [String]
+    static func writeCurve(id: Int, curve: Curve2D, sfa: Double) -> [String]
     
     /// Writes a `CurveTable` structure to an array of strings.
     ///
     /// - Parameter
-    ///   - table: The `CurveTable` instance to be written.
     ///   - id: An `Int`  serving as an identifier for the tableCurves
+    ///   - table: The `CurveTable` instance to be written.
     /// - Returns: An array of strings representing the serialized form of the curve table.
-    static func writeCurveTable(table: CurveTable, id: Int) -> [String]
+    static func writeCurveTable(id: Int, table: CurveTable) -> [String]
 }
 
 extension MaterialWriter {
@@ -81,9 +81,9 @@ extension MaterialWriter {
     /// - A leading indent of 8 spaces is added for alignment with the header.
     ///
     /// - Parameters:
+    ///   - id: An `Int` representing the curve's unique identifier.
     ///   - curve: The `Curve2D` object containing the points to be written.
     ///   - sfa: A `Double` representing the scale factor applied to the curve data.
-    ///   - id: An `Int` representing the curve's unique identifier.
     /// - Returns: An array of `String`, each representing a line in the formatted output of the curve.
     ///
     /// Example output for a single curve point:
@@ -91,7 +91,7 @@ extension MaterialWriter {
     ///      32051         0       1.0       1.0       0.0       0.0         0
     ///              0.0           222.65385
     /// ```
-    static func writeCurve(curve: Curve2D, sfa: Double, id: Int) -> [String] {
+    static func writeCurve(id: Int, curve: Curve2D, sfa: Double = 1.0) -> [String] {
         var lines: [String] = [
             "*DEFINE_CURVE",
             String(format: "%10d%10d%10.1f%10.1f%10.1f%10.1f%10d", id, 0, sfa, 1.0, 0.0, 0.0, 0)
@@ -99,7 +99,7 @@ extension MaterialWriter {
         
         for point in curve.points {
             let pointString = Self.writePoint(point: point)
-            lines.append("        \(pointString)")
+            lines.append( "\(pointString)")
         }
         
         return lines
@@ -117,9 +117,8 @@ extension MaterialWriter {
     /// is paired with the corresponding entry in the curve table based on the order.
     ///
     /// - Parameters:
-    ///   - table: The `CurveTable` object containing the entries to be written.
     ///   - id: An `Int` representing the curve table's unique identifier.
-    ///   - curveIds: An array of `Int`, where each element is a curve ID corresponding to each entry in the table.
+    ///   - table: The `CurveTable` object containing the entries to be written.
     /// - Returns: An array of `String`, each representing a line in the formatted output of the curve table.
     ///
     /// Example output for a curve table entry:
@@ -128,7 +127,7 @@ extension MaterialWriter {
     ///     600909
     ///            0.001    600910
     /// ```
-    static func writeCurveTable(table: CurveTable, id: Int) -> [String] {
+    static func writeCurveTable(id: Int, table: CurveTable) -> [String] {
         var lines: [String] = ["*DEFINE_TABLE", String(format: "%10d", id)]
         
         
@@ -143,7 +142,7 @@ extension MaterialWriter {
         }
         
         for index in curvePair.keys.sorted(by: <){
-            let curveLines = Self.writeCurve(curve: curvePair[index]!, sfa: 1.0, id: index)
+            let curveLines = Self.writeCurve( id: index, curve: curvePair[index]!, sfa: 1.0)
             lines.append(contentsOf: curveLines)
         }
         

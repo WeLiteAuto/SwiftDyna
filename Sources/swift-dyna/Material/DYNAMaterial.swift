@@ -21,11 +21,8 @@ public protocol DYNAMaterial {
     /// Basic properties of the material, demonstrating the use of `Double`.
     var basic: [String: Double] { get set }
     
-    /// Specific properties of the material, demonstrating the use of `MaterialPropertyValue`.
-//    var properties: OrderedDictionary<String, MaterialPropertyValue> { get set }
-    
-//    var curves: OrderedDictionary<Int, Curve2D> { get set }
-//    var tables: OrderedDictionary<Int, CurveTable> { get set }
+    /// Fracture properties of the material
+    var fracture: [String: MaterialPropertyValue]? {get set}
 
     /// Generates a textual description of the material and its properties.
     /// - Returns: A `String` representing the material with its properties.

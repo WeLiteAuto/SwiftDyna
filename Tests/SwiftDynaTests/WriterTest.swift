@@ -13,11 +13,11 @@ class TempWriter: MaterialWriter{
         let material = material as! PiecewiseLinearPlasticityMaterial_024
         switch material.hardenCurves{
         case .curveTableID(_, let table):
-            return Self.writeCurveTable(table: table, id: 6000)
+            return Self.writeCurveTable(id: 6000, table: table)
         case .directValue(let value):
             return ["\(value)"]
         case .curveID(_, let curve):
-            return Self.writeCurve(curve: curve, sfa: 1, id: 1)
+            return Self.writeCurve(id: 1, curve: curve)
         }
     }
     
@@ -54,7 +54,7 @@ final class WriterTest: XCTestCase {
         
 //        let material = parser!.material
         let writer = TempWriter()
-        let result = writer.write(material: parser!.material!, id: <#Int#> )
+        let result = writer.write(material: parser!.material!, id: 190 )
         
         let combinedString = result.joined(separator: "\n")
 
@@ -75,6 +75,37 @@ final class WriterTest: XCTestCase {
             print("Failed to save file: \(error)")
         }
         
+    }
+    
+    func testMAT24Write() throws {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // Any test you write for XCTest can be annotated as throws and async.
+        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
+        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+
+        let writer = Mat24Writer()
+        XCTAssertNoThrow(try writer.write(material: parser!.material!, id: 190, type: .crashworthness))
+        let result = try writer.write(material: parser!.material!, id: 190, type: .crashworthness)
+        
+        let combinedString = result.joined(separator: "\n")
+
+        // Get the path to the Documents directory
+        guard let documentsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
+            fatalError("Documents directory not found")
+        }
+
+        // Specify the file name and path
+        let fileName = "MyFile.txt"
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+
+        // Write the combined string to the file
+        do {
+            try combinedString.write(to: fileURL, atomically: true, encoding: .utf8)
+            print("File saved: \(fileURL)")
+        } catch {
+            print("Failed to save file: \(error)")
+        }
     }
 
     func testPerformanceExample() throws {

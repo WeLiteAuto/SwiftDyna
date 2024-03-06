@@ -82,6 +82,9 @@ public class DYNAMaterialFileParser {
         
         guard material != nil 
         else  {throw fatalError("Parse Material format error")}
+        if fracture != nil {
+            material!.fracture = fracture
+        }
 
     }
     
@@ -250,7 +253,7 @@ public class DYNAMaterialFileParser {
     ///   - section: The keyword identifying the section.
     ///   - data: An array of strings containing the data for the section.
     func parseMaterial(_ section: String, withData data: [String]) -> (any DYNAMaterial)? {
-        var defaultMaterial: ElasticMaterial_001? = nil
+        let defaultMaterial: ElasticMaterial_001? = nil
         var section = section
         guard section.hasPrefix("*MAT_") else {return defaultMaterial}
         if section.hasSuffix("_TITLE") {

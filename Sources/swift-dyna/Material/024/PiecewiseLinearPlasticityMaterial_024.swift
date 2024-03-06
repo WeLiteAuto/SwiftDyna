@@ -18,7 +18,7 @@ public struct PiecewiseLinearPlasticityMaterial_024: DYNAMaterial {
     public var basic =  [String: Double] ()
     
     public var hardenCurves: MaterialPropertyValue = .directValue(0.0)
-    public var fracture: [String: MaterialPropertyValue]? = nil
+    public var fracture: [String : MaterialPropertyValue]? = nil
     
     public init(id: Int, density: Double, title: String? = nil
     ) {

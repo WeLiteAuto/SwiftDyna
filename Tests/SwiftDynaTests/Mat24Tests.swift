@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftDyna
 
 final class Mat24Tests: XCTestCase {
-    let path = "/Users/aaronge/Downloads/6063.key"
+    let path = "/Users/aaronge/Downloads/demo.txt"
     
     var parser: DYNAMaterialFileParser? = nil
     var contents: String? = nil

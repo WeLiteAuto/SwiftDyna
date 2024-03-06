@@ -15,6 +15,8 @@ import Collections
 /// The material is defined by the LS-DYNA keyword `*MAT_ELASTIC` and includes
 /// common parameters used to describe elastic behavior.
 public struct ElasticMaterial_001: DYNAMaterial {
+   
+    
     /// The unique identifier for the material.
     public var id: Int = 0
     
@@ -26,6 +28,8 @@ public struct ElasticMaterial_001: DYNAMaterial {
     
     /// An optional title for the material.
     public var title: String? = nil
+    
+    public var fracture: [String : MaterialPropertyValue]? = nil
     
     /// A dictionary of material properties, including Young's modulus (E),
     /// Poisson's ratio (PR), damping coefficients (DA, DB), bulk modulus (K),
