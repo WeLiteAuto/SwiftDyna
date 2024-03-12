@@ -17,7 +17,7 @@ public extension MaterialParser {
         var lines = lines
         var erosion = [String: MaterialPropertyValue]()
         
-        if splitByWhitespace(lines[0]).count == 1 {
+        if splitByWhitespace(lines[0]).count < 8 {
             _ = lines.removeFirst()
         }
         

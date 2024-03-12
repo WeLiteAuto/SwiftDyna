@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension PiecewiseLinearPlasticityMaterial_024: Encodable {
+extension Mat_024: Encodable {
     enum CodingKeys: String, CodingKey {
         case type, density, title, basic, hardenCurves, fracture
     }

@@ -9,8 +9,9 @@ import XCTest
 @testable import SwiftDyna
 
 class TempWriter: MaterialWriter{
+
     func write(material: SwiftDyna.DYNAMaterial, id: Int, type: SwiftDyna.MaterialCardType = .structure) -> [String] {
-        let material = material as! PiecewiseLinearPlasticityMaterial_024
+        let material = material as! Mat_024
         switch material.hardenCurves{
         case .curveTableID(_, let table):
             return Self.writeCurveTable(id: 6000, table: table)
@@ -26,7 +27,7 @@ class TempWriter: MaterialWriter{
 
 final class WriterTest: XCTestCase {
     
-    let path = "/Users/aaronge/Downloads/demo.txt"
+    let path = "/Users/aaronge/Downloads/mat.key"
     var parser: DYNAMaterialFileParser? = nil
     
     override func setUpWithError() throws {
@@ -96,7 +97,7 @@ final class WriterTest: XCTestCase {
         }
 
         // Specify the file name and path
-        let fileName = "MyFile.txt"
+        let fileName = "\(parser!.material!.id).key"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
 
         // Write the combined string to the file

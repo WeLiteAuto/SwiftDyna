@@ -8,13 +8,13 @@
 import Collections
 import Foundation
 
-public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
+public class Mat24_Parser : MaterialParser {
 
     public func parser(_ lines: [String], curves: OrderedDictionary<Int, Curve2D>,
                 tables: OrderedDictionary<Int, CurveTable>)->DYNAMaterial? 
     {
 
-        var pieceLinerPlasticMaterial: PiecewiseLinearPlasticityMaterial_024? = nil
+        var pieceLinerPlasticMaterial: Mat_024? = nil
         guard !lines.isEmpty else{return pieceLinerPlasticMaterial}
         var lines = lines
         var title: String?
@@ -60,12 +60,12 @@ public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
         else {return pieceLinerPlasticMaterial}
         let expX = exp(intersetion.x)
         
-        pieceLinerPlasticMaterial = PiecewiseLinearPlasticityMaterial_024(id: id, density: density)
+        pieceLinerPlasticMaterial = Mat_024(id: id, density: density)
         pieceLinerPlasticMaterial?.title = title
-        pieceLinerPlasticMaterial!.basic["Youngs"] = youngs
-        pieceLinerPlasticMaterial!.basic["Poison"] = poison
-        pieceLinerPlasticMaterial!.basic["Yield"] = yield
-        pieceLinerPlasticMaterial!.basic["Tensile"] = intersetion.y / expX
+        pieceLinerPlasticMaterial!.basic["1.Youngs"] = youngs
+        pieceLinerPlasticMaterial!.basic["2.Poison"] = poison
+        pieceLinerPlasticMaterial!.basic["3.Yield"] = yield
+        pieceLinerPlasticMaterial!.basic["4.Tensile"] = intersetion.y / expX
         
         
         pieceLinerPlasticMaterial!.hardenCurves = hardenCurves
@@ -75,7 +75,7 @@ public class PiecewiseLinearPlasticityMaterialParser_024 : MaterialParser {
         
     }
     
-    static let shared = PiecewiseLinearPlasticityMaterialParser_024()
+    static let shared = Mat24_Parser()
     
     
 }

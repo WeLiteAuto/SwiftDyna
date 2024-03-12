@@ -72,7 +72,7 @@ public class DYNAMaterialFileParser {
         for materialSection in materialSections {
             if materialSection.contains("EROSION")
             {
-                fracture = try PiecewiseLinearPlasticityMaterialParser_024.shared.parseGISSMO(lines: sections[materialSection]![0], curves: lcCurves, tables: lcCurveTables)
+                fracture = try Mat24_Parser.shared.parseGISSMO(lines: sections[materialSection]![0], curves: lcCurves, tables: lcCurveTables)
             }
             else{
                 material = parseMaterial(materialSection,
@@ -263,8 +263,8 @@ public class DYNAMaterialFileParser {
 //        print(section)
         switch section {
         case "PIECEWISE_LINEAR_PLASTICITY":
-            let matParser = PiecewiseLinearPlasticityMaterialParser_024.shared
-            var material = matParser.parser(data, curves: lcCurves, tables: lcCurveTables) as! PiecewiseLinearPlasticityMaterial_024
+            let matParser = Mat24_Parser.shared
+            var material = matParser.parser(data, curves: lcCurves, tables: lcCurveTables) as! Mat_024
             guard fracture != nil 
             else {return material}
             material.fracture = fracture

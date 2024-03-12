@@ -24,6 +24,10 @@ public protocol MaterialWriter {
     /// - Returns: An array of strings representing the serialized form of the material.
     func write(material: DYNAMaterial, id: Int, type: MaterialCardType) throws -> [String]
     
+    func writeTonMmS(material: DYNAMaterial, id: Int, type: MaterialCardType) throws -> [String]
+    
+    func writeKgMmMs(material: DYNAMaterial, id: Int, type: MaterialCardType) throws -> [String]
+    
     /// Writes a `Point2D` structure to a string in a predefined format.
     ///
     /// - Parameter point: The `Point2D` instance to be written.
@@ -37,7 +41,7 @@ public protocol MaterialWriter {
     ///   - curve: The `Curve2D` instance to be written.
     ///   - sfa: A `Double` representing the scale factor applied to the curve data.
     /// - Returns: An array of strings representing the serialized form of the curve.
-    static func writeCurve(id: Int, curve: Curve2D, sfa: Double) -> [String]
+    static func writeCurve(id: Int, curve: Curve2D, sfa: Double, sfo: Double) -> [String]
     
     /// Writes a `CurveTable` structure to an array of strings.
     ///
@@ -45,10 +49,18 @@ public protocol MaterialWriter {
     ///   - id: An `Int`  serving as an identifier for the tableCurves
     ///   - table: The `CurveTable` instance to be written.
     /// - Returns: An array of strings representing the serialized form of the curve table.
-    static func writeCurveTable(id: Int, table: CurveTable) -> [String]
+    static func writeCurveTable(id: Int, table: CurveTable, sfa: Double, sfo: Double) -> [String]
 }
 
 extension MaterialWriter {
+    
+    func writeTonMmS(material: any SwiftDyna.DYNAMaterial, id: Int, type: SwiftDyna.MaterialCardType) throws -> [String] {
+        []
+    }
+    
+    func writeKgMmMs(material: any SwiftDyna.DYNAMaterial, id: Int, type: SwiftDyna.MaterialCardType) throws -> [String] {
+        []
+    }
     /// Default implementation of writing a `Point2D` structure to a string.
     ///
     /// This method formats the `x` and `y` coordinates of the point with a fixed floating-point notation,
@@ -91,10 +103,10 @@ extension MaterialWriter {
     ///      32051         0       1.0       1.0       0.0       0.0         0
     ///              0.0           222.65385
     /// ```
-    static func writeCurve(id: Int, curve: Curve2D, sfa: Double = 1.0) -> [String] {
+    static func writeCurve(id: Int, curve: Curve2D, sfa: Double = 1.0, sfo:Double = 1.0) -> [String] {
         var lines: [String] = [
             "*DEFINE_CURVE",
-            String(format: "%10d%10d%10.1f%10.1f%10.1f%10.1f%10d", id, 0, sfa, 1.0, 0.0, 0.0, 0)
+            String(format: "%10d%10d%10.5f%10.5f%10.1f%10.1f%10d", id, 0, sfa, sfo, 0.0, 0.0, 0)
         ]
         
         for point in curve.points {
@@ -127,22 +139,20 @@ extension MaterialWriter {
     ///     600909
     ///            0.001    600910
     /// ```
-    static func writeCurveTable(id: Int, table: CurveTable) -> [String] {
-        var lines: [String] = ["*DEFINE_TABLE", String(format: "%10d", id)]
-        
-        
+    static func writeCurveTable(id: Int, table: CurveTable, sfa: Double = 1.0, sfo: Double = 1.0) -> [String] {
+        var lines: [String] = ["*DEFINE_TABLE", String(format: "%10d%10.5f", id, sfa)]
         var curveId = id
         var curvePair = [Int: Curve2D] ()
         for index in table.keys.sorted(by: <)  {
             curveId += 1
             // Format the value with appropriate spacing and precision.
-            let line = String(format: "%20.3f%10d", index, curveId)
+            let line = String(format: "%20.5f%10d", index, curveId)
             lines.append(line)
             curvePair[curveId] = table[index]
         }
         
         for index in curvePair.keys.sorted(by: <){
-            let curveLines = Self.writeCurve( id: index, curve: curvePair[index]!, sfa: 1.0)
+            let curveLines = Self.writeCurve( id: index, curve: curvePair[index]!, sfa: 1.0, sfo: sfo)
             lines.append(contentsOf: curveLines)
         }
         

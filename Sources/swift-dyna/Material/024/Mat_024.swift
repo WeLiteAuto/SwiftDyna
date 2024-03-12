@@ -6,7 +6,7 @@
 //
 import Collections
 
-public struct PiecewiseLinearPlasticityMaterial_024: DYNAMaterial {
+public struct Mat_024: DYNAMaterial {
     
     
     
