@@ -178,6 +178,9 @@ public class DYNAMaterialFileParser {
                     SFO = Double(components[3]) ?? 1
                     OFFA = Double(components[4]) ?? 0
                     OFFO = Double(components[5]) ?? 0
+                    
+                    SFA = SFA == 0.0 ? 1.0 : SFA
+                    SFO = SFO == 0.0 ? 1.0 : SFO
                 }
                 transfered = true
             }
@@ -255,9 +258,13 @@ public class DYNAMaterialFileParser {
     func parseMaterial(_ section: String, withData data: [String]) -> (any DYNAMaterial)? {
         let defaultMaterial: ElasticMaterial_001? = nil
         var section = section
-        guard section.hasPrefix("*MAT_") else {return defaultMaterial}
+        guard section.hasPrefix("*MAT_") 
+        else {return defaultMaterial}
         if section.hasSuffix("_TITLE") {
             section = section.dropFirst(5).dropLast(6).uppercased()
+        }
+        else{
+            section = section.dropFirst(5).uppercased()
         }
         //        var currentMaterial: DYNAMaterial?
 //        print(section)

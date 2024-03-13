@@ -27,7 +27,7 @@ class TempWriter: MaterialWriter{
 
 final class WriterTest: XCTestCase {
     
-    let path = "/Users/aaronge/Downloads/mat.key"
+    let path = "/Users/aaronge/Downloads/780DP-GISMMO.k"
     var parser: DYNAMaterialFileParser? = nil
     
     override func setUpWithError() throws {
