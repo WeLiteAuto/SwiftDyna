@@ -6,7 +6,7 @@
 //
 
 import Collections
-
+import Foundation
 
 
 /// A parser for handling curve and material data from a structured text file.
@@ -192,13 +192,19 @@ public class DYNAMaterialFileParser {
                 else {
                     return nil
                 }
+                
+//
+//                let yFormat = round(y * 10000) / 10000
                 let point = Point2D(x: x, y: y)
                 points.append(point)
             }
         }
         
         let truePoints = points.map {
-            Point2D(x: $0.x * SFA + OFFA, y: $0.y * SFO + OFFO)
+//            Point2D(x: $0.x * SFA + OFFA, y: $0.y * SFO + OFFO)
+            let xFormat = round(($0.x * SFA + OFFA) * 10_000) / 10_000.0
+            let yFormat = round(($0.y * SFO + OFFO) * 10_000) / 10_000.0
+            return Point2D(x: xFormat, y: yFormat)
         }
         
         return (key, Curve2D(points: truePoints))

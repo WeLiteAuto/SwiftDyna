@@ -39,15 +39,15 @@ public class Mat24_Parser : MaterialParser {
 
         if tables.keys.contains(lcssId){
             hardenCurves = .curveTableID(lcssId, tables[lcssId]!)
-            guard let lowestKey = tables[lcssId]!.keys.min() else {return pieceLinerPlasticMaterial}
+            guard let lowestKey = tables[lcssId]!.keys.min() 
+            else {return pieceLinerPlasticMaterial}
             lowestCurve = tables[lcssId]![lowestKey]!
         }
         
         else {
-            guard let curve = curves[lcssId] else{return pieceLinerPlasticMaterial}
+            guard let curve = curves[lcssId]
+            else{return pieceLinerPlasticMaterial}
             hardenCurves = .curveTableID(lcssId, .init([0.001: curve]))
-//                .curveID(lcssId, curve)
-//            guard let curve = curves[lcssId] else{return pieceLinerPlasticMaterial}
             lowestCurve = curve
         }
         

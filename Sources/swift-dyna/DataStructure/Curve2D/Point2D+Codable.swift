@@ -20,6 +20,10 @@ extension Point2D: Codable{
         guard let firstKey = dictionary.keys.first, let xValue = Double(firstKey), let yValue = dictionary[firstKey] else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode Point2D")
         }
+        
+        
+//        let y = Double(String(format:"%.7f", yValue))
+//        let formattedValue = Double(String(format: "%.7f", yValue))!
         self.init(x: xValue, y: yValue)
     }
     
@@ -30,7 +34,9 @@ extension Point2D: Codable{
     /// - Parameter encoder: The encoder to write data to.
     /// - Throws: An error if any values cannot be encoded.
     public func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
-            try container.encode([String(x): y])
+        var container = encoder.singleValueContainer()
+//        encoder.
+//        encoder.
+        try container.encode([String(x): Decimal(y)])
     }
 }

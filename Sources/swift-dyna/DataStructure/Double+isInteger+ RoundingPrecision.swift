@@ -7,8 +7,13 @@
 
 import Foundation
 
+
+
 public extension Double{
     var isInteger : Bool {
          self.truncatingRemainder(dividingBy: 1) == 0
     }
+    
+   
 }
+

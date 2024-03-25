@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftDyna
 
 final class Mat24Tests: XCTestCase {
-    let path = "/Users/aaronge/Downloads/mat.key"
+    let path = "/Users/aaronge/Downloads/AlSi10MnMg.key"
     
     var parser: DYNAMaterialFileParser? = nil
     var contents: String? = nil
@@ -48,6 +48,7 @@ final class Mat24Tests: XCTestCase {
         
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
+//        encoder.
 
         do {
             let jsonData = try encoder.encode(parser!.material as! Mat_024)
