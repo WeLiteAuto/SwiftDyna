@@ -27,19 +27,27 @@ class TempWriter: MaterialWriter{
 
 final class WriterTest: XCTestCase {
     
-    let path = "/Users/aaronge/Downloads/780DP-GISMMO.k"
-    var parser: DYNAMaterialFileParser? = nil
+    let path = "/Users/aaronge/Downloads/mat24.json"
+//    var parser: DYNAMaterialFileParser? = nil
+    var material: DYNAMaterial?
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        parser = DYNAMaterialFileParser()
-        let contents = parser!.readFileContents(atPath: path)
-        let sections = parser!.parseContents2Sections(contents: contents!)
-        
-        try parser!.parseCurveSections(sections)
-        try parser!.parseTableSections(sections)
-        try parser!.parseMaterialSetion(sections)
-        
+//        parser = DYNAMaterialFileParser()
+//        let contents = parser!.readFileContents(atPath: path)
+//        let sections = parser!.parseContents2Sections(contents: contents!)
+//        
+//        try parser!.parseCurveSections(sections)
+//        try parser!.parseTableSections(sections)
+//        try parser!.parseMaterialSetion(sections)
+        let jsonData = try Data(contentsOf: URL(fileURLWithPath: path))
+            
+            // Parse the JSON data
+        guard let mat = try? JSONDecoder().decode(Mat_024.self, from: jsonData)
+        else {
+            throw fatalError()
+        }
+        material = mat
     }
 
     override func tearDownWithError() throws {
@@ -55,7 +63,7 @@ final class WriterTest: XCTestCase {
         
 //        let material = parser!.material
         let writer = TempWriter()
-        let result = writer.write(material: parser!.material!, id: 190 )
+        let result = writer.write(material: material!, id: 190 )
         
         let combinedString = result.joined(separator: "\n")
 
@@ -86,8 +94,9 @@ final class WriterTest: XCTestCase {
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
 
         let writer = Mat24Writer()
-        XCTAssertNoThrow(try writer.write(material: parser!.material!, id: 190, type: .crashworthness))
-        let result = try writer.write(material: parser!.material!, id: 190, type: .crashworthness)
+        material!.id = 191
+        XCTAssertNoThrow(try writer.write(material: material! as! Mat_024 , id: material!.id, type: .crashworthness))
+        let result = try writer.write(material: material! as! Mat_024 , id: material!.id, type: .crashworthness)
         
         let combinedString = result.joined(separator: "\n")
 
@@ -97,7 +106,7 @@ final class WriterTest: XCTestCase {
         }
 
         // Specify the file name and path
-        let fileName = "\(parser!.material!.id).key"
+        let fileName = "\(material!.id).key"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
 
         // Write the combined string to the file
