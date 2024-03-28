@@ -2,7 +2,7 @@ import XCTest
 @testable import SwiftDyna
 
 final class Mat24Tests: XCTestCase {
-    let path = "/Users/aaronge/Downloads/AlSi10MnMg.key"
+    let path = "/Users/aaronge/Downloads/6063.key"
     
     var parser: DYNAMaterialFileParser? = nil
     var contents: String? = nil
@@ -12,7 +12,8 @@ final class Mat24Tests: XCTestCase {
         parser = DYNAMaterialFileParser()
         
         contents = parser!.readFileContents(atPath: path)
-        sections = parser!.parseContents2Sections(contents: contents!)
+        guard let contents = contents else {throw fatalError()}
+        sections = parser!.parseContents2Sections(contents: contents)
     }
     
     
@@ -54,7 +55,7 @@ final class Mat24Tests: XCTestCase {
             let jsonData = try encoder.encode(parser!.material as! Mat_024)
             let fileURL = FileManager.default.homeDirectoryForCurrentUser
                 .appendingPathComponent("Downloads")
-                .appendingPathComponent("mat24.json")
+                .appendingPathComponent("6063T6.json")
 
             do {
                 try jsonData.write(to: fileURL, options: .atomicWrite)

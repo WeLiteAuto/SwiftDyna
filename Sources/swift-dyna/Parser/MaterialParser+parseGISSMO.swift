@@ -80,7 +80,7 @@ public extension MaterialParser {
         
         guard let nahsv = Double(line3[2].trimmingCharacters(in: .whitespaces))
         else {throw fatalError("Parser errosion error")}
-        erosion["nahsv"] = .directValue(nahsv)
+        erosion["nahsv"] = nahsv == 0 ? .directValue(6) : .directValue(nahsv)
         
         guard let lcsrs = Double(line3[3].trimmingCharacters(in: .whitespaces)),
               lcsrs.isInteger

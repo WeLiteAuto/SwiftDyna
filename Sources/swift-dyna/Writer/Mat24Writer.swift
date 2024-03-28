@@ -115,9 +115,9 @@ class Mat24Writer: MaterialWriter{
         var matId = 0
         switch type {
         case .structure:
-             matId = 610000 + id
+             matId = 620000 + id
         case .crashworthness:
-            matId = 620000 + id
+            matId = 610000 + id
         }
         
         

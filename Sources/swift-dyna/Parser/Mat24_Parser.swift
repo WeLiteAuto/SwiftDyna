@@ -64,9 +64,10 @@ public class Mat24_Parser : MaterialParser {
         pieceLinerPlasticMaterial?.title = title
         pieceLinerPlasticMaterial!.basic["1.Youngs"] = youngs
         pieceLinerPlasticMaterial!.basic["2.Poison"] = poison
-        pieceLinerPlasticMaterial!.basic["3.Yield"] = yield
-        pieceLinerPlasticMaterial!.basic["4.Tensile"] = intersetion.y / expX
-        
+        pieceLinerPlasticMaterial!.basic["3.Thickness"] = 0
+        pieceLinerPlasticMaterial!.basic["4.Rp0.2"] = yield
+        pieceLinerPlasticMaterial!.basic["5.Rm"] = intersetion.y / expX
+        pieceLinerPlasticMaterial!.basic["6.At"] = 0.0
         
         pieceLinerPlasticMaterial!.hardenCurves = hardenCurves
         //

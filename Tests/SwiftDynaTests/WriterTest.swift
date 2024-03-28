@@ -27,7 +27,7 @@ class TempWriter: MaterialWriter{
 
 final class WriterTest: XCTestCase {
     
-    let path = "/Users/aaronge/Downloads/mat24.json"
+    let path = "/Users/aaronge/Downloads/6063T6.json"
 //    var parser: DYNAMaterialFileParser? = nil
     var material: DYNAMaterial?
     
@@ -94,9 +94,11 @@ final class WriterTest: XCTestCase {
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
 
         let writer = Mat24Writer()
-        material!.id = 191
+        material!.id = 195
+        XCTAssertNoThrow(try writer.write(material: material! as! Mat_024 , id: material!.id, type: .structure))
+        let result = try writer.write(material: material! as! Mat_024 , id: material!.id, type: .structure)
         XCTAssertNoThrow(try writer.write(material: material! as! Mat_024 , id: material!.id, type: .crashworthness))
-        let result = try writer.write(material: material! as! Mat_024 , id: material!.id, type: .crashworthness)
+        let result2 = try writer.write(material: material! as! Mat_024 , id: material!.id, type: .crashworthness)
         
         let combinedString = result.joined(separator: "\n")
 
@@ -106,7 +108,8 @@ final class WriterTest: XCTestCase {
         }
 
         // Specify the file name and path
-        let fileName = "\(material!.id).key"
+        let fileName = //"\(material!.id).key"
+        "\(material!.id).k"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
 
         // Write the combined string to the file
