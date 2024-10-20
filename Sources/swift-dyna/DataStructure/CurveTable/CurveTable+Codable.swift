@@ -9,46 +9,44 @@ import Foundation
 
 
 extension CurveTable: Codable {
-    // Custom error for handling encoding and decoding errors specifically related to `CurveTable`.
-    enum CodingError: Error {
-        case encodingError(String)
+    private enum CodingKeys: String, CodingKey {
+        case curves
     }
     
-    /// Creates a new instance by decoding from the given decoder.
-    ///
-    /// This initializer decodes a dictionary from the provided decoder, where each key is a string that represents a double value,
-    /// and each value is a `Curve2D` structure. It then converts the string keys back to `Double` types for internal storage.
-    ///
-    /// - Parameter decoder: The decoder to read data from.
-    /// - Throws: An error if reading from the decoder fails, or if the encountered stored value cannot be decoded.
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        let encodableCurves = curves.reduce(into: [String: Curve2D]()) { result, pair in
+            result[pair.key.description] = pair.curve
+        }
+        
+        try container.encode(encodableCurves, forKey: .curves)
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let decodedCurves = try container.decode([String: Curve2D].self, forKey: .curves)
+        
+        self.curves = decodedCurves.compactMap { key, curve in
+            guard let decimalKey = Decimal(string: key) else { return nil }
+            return (key: decimalKey, curve: curve)
+        }.sorted(by: { $0.key < $1.key })
+    }
+}
+
+// Custom encoding/decoding for Decimal to ensure precision
+extension Decimal: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let curvesDictionary = try container.decode([String: Curve2D].self)
-        
-        curves = try curvesDictionary.reduce(into: [:]) { accumulator, pair in
-            guard let key = Double(pair.key) else {
-                // If the string key cannot be converted back to Double, throw an error.
-                throw CodingError.encodingError("Key '\(pair.key)' is not a valid Double")
-            }
-            accumulator[key] = pair.value
+        let stringValue = try container.decode(String.self)
+        guard let decimal = Decimal(string: stringValue) else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid Decimal value")
         }
+        self = decimal
     }
     
-    /// Encodes this instance into the given encoder.
-    ///
-    /// This method encodes the `curves` dictionary into a format where each key is a string representing its double value,
-    /// preserving the numeric identification of each curve in a string format suitable for JSON encoding.
-    ///
-    /// - Parameter encoder: The encoder to write data to.
-    /// - Throws: An error if any values cannot be encoded.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        
-        // Convert the Double keys to String for encoding.
-        let stringDictionary = curves.reduce(into: [:]) { accumulator, pair in
-            accumulator[String(pair.key)] = pair.value
-        }
-        
-        try container.encode(stringDictionary)
+        try container.encode(self.description)
     }
 }

@@ -13,14 +13,13 @@ import Collections
 /// define the shape of a curve. This structure provides methods to manipulate
 /// the curve by adding points and sorting them.
 public struct Curve2D {
-    /// An array of `Point2D` instances that define the curve.
-    var points: [Point2D]
+    private var points: [(x: Decimal, y: Decimal)]
     
     /// Initializes a new curve with the given points.
     ///
     /// - Parameter points: An array of `Point2D` instances to initialize the curve.
-    init(points: [Point2D] = []) {
-        self.points = points
+    public init(points: [(x: Decimal, y: Decimal)] = []) {
+        self.points = points.sorted(by: { $0.x < $1.x })
     }
     
     /// Adds a new point to the curve.
@@ -28,16 +27,13 @@ public struct Curve2D {
     /// Appends the given `Point2D` instance to the end of the curve's points array.
     ///
     /// - Parameter point: A `Point2D` instance to add to the curve.
-    mutating func addPoint(_ point: Point2D) {
-        points.append(point)
-    }
-    
-    /// Sorts the points of the curve based on their x-coordinate.
-    ///
-    /// This method sorts the points array in ascending order by the x-coordinate
-    /// of each point. It modifies the order of points in the curve's points array.
-    mutating func sortByX() {
-        points.sort { $0.x < $1.x }
+    public mutating func addPoint(x: Decimal, y: Decimal) {
+        let newPoint = (x: x, y: y)
+        if let insertIndex = points.firstIndex(where: { $0.x > x }) {
+            points.insert(newPoint, at: insertIndex)
+        } else {
+            points.append(newPoint)
+        }
     }
     
     /// Generates a textual description of the curve and its points.
@@ -47,6 +43,20 @@ public struct Curve2D {
     func description() -> String {
         let pointDescriptions = points.map { "(\($0.x), \($0.y))" }.joined(separator: ", ")
         return "Curve2D with points: [\(pointDescriptions)]"
+    }
+    
+    /// Interpolated value at a given x-coordinate.
+    public func interpolatedValue(at x: Decimal) -> Decimal? {
+        guard let i = points.firstIndex(where: { $0.x > x }) else {
+            return points.last?.y
+        }
+        guard i > 0 else {
+            return points.first?.y
+        }
+        let p1 = points[i-1]
+        let p2 = points[i]
+        let slope = (p2.y - p1.y) / (p2.x - p1.x)
+        return p1.y + slope * (x - p1.x)
     }
 }
 
@@ -65,6 +75,7 @@ public extension Curve2D{
         }
     }
 }
+
 
 
 

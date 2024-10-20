@@ -19,11 +19,11 @@ public enum MaterialPropertyValue {
 
     /// Represents an identifier for a curve.
     /// - Parameter id: An `Int` representing the ID of the curve.
-    case curveID(Int, Curve2D)
+    case curveID(Curve2D)
 
     /// Represents an identifier for a curve table.
     /// - Parameter id: An `Int` representing the ID of the curve table.
-    case curveTableID(Int, CurveTable)
+    case curveTableID(CurveTable)
 
     /// Provides a textual description of the material property value.
     /// - Returns: A `String` description of the value.
@@ -31,10 +31,10 @@ public enum MaterialPropertyValue {
         switch self {
         case .directValue(let value):
             return "Value: \(value)"
-        case .curveID(let id, _):
-            return "Curve ID: \(id)"
-        case .curveTableID(let id, _):
-            return "Curve Table ID: \(id)"
+        case .curveID(let curve):
+            return "Curve : \(curve)"
+        case .curveTableID(let table):
+            return "Curve Table : \(table)"
         }
     }
 }
